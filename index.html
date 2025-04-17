@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HFCSH - Appointment Booking</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --primary-light: #60ad5e;
+            --primary-dark: #005005;
+            --secondary-color: #f5f5f5;
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo img {
+            height: 60px;
+            margin-right: 1rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: var(--primary-dark);
+            padding: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--primary-light);
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcyC-ys48frp45fgCSXt16qrMT_tnSEg2-ZfTGffsfMHgY1MllydSbBm8M0H5LmMF4z8Q&usqp=CAU');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .hero-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 0.5rem auto;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-content h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .appointment-form {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .health-info {
+            margin-bottom: 3rem;
+        }
+
+        .info-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background-color: var(--white);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .tab-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column ul li a {
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary-light);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 200px;
+            }
+
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.3rem 0;
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            position: relative;
+            animation: modalopen 0.5s;
+        }
+
+        @keyframes modalopen {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+      
+      .HFCSH{
+        color:pink;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://www.co-createafrica.org/wp-content/uploads/2024/06/hunewlogo.jpg.webp" alt="Hiwot Fana Hospital Logo">
+            <div class="logo-text">
+                <h1>Haramaya University Hiwot Fana Comprehensive Specialist Hospital</h1>
+                <p>Quality Healthcare Services for All</p>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#appointment">Book Appointment</a></li>
+            <li><a href="#health-info">Health Information</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h2>Your Health is Our Priority</h2>
+                <p>Quality healthcare services with compassion and excellence</p>
+                <a href="#appointment" class="btn">Book an Appointment</a>
+            </div>
+        </section>
+
+        <section id="services">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services">
+                <div class="service-card">
+                    <img src="https://nomanihospital.in/wp-content/uploads/2021/08/gc.jpg" alt="General Consultation">
+                    <div class="service-content">
+                        <h3>General Consultation</h3>
+                        <p>Comprehensive medical evaluation and treatment by our experienced physicians for all your healthcare needs.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <img src="https://islandhospital.com/wp-content/uploads/2023/01/2-1.jpg" alt="Specialist Care">
+                    <div class="service-content">
+                        <h3>Specialist Care</h3>
+                        <p>Access to specialized medical care in various fields including cardiology, neurology, and more.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <img src="https://guidewaycare.com/wp-content/themes/yootheme/cache/87/how-can-nurses-improve-patient-satisfaction--87949e62.jpeg" alt="Nursing Services">
+                    <div class="service-content">
+                        <h3>Nursing Services</h3>
+                        <p>Professional nursing care including wound care, medication administration, and patient education.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="appointment">
+            <h2 class="section-title">Book an Appointment</h2>
+            <div class="appointment-form">
+                <form id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service">Service Required</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="general">General Consultation</option>
+                                <option value="specialist">Specialist Consultation</option>
+                                <option value="nursing">Nursing Services</option>
+                                <option value="lab">Laboratory Tests</option>
+                                <option value="pharmacy">Pharmacy</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="provider">Preferred Provider</label>
+                            <select id="provider" name="provider">
+                                <option value="">Any available provider</option>
+                                <option value="dr1">Dr. Alemayehu (General Physician)</option>
+                                <option value="dr2">Dr. Meseret (Cardiologist)</option>
+                                <option value="nurse1">Nurse Genet</option>
+                                <option value="nurse2">Nurse Ahmed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Preferred Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Preferred Time</label>
+                            <select id="time" name="time" required>
+                                <option value="">Select time</option>
+                                <option value="08:00">08:00 AM</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="13:00">01:00 PM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="15:00">03:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" name="notes" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Book Appointment</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="health-info" class="health-info">
+            <h2 class="section-title">Health Information</h2>
+            <div class="info-tabs">
+                <button class="tab-btn active" data-tab="dm">Diabetes Mellitus</button>
+                <button class="tab-btn" data-tab="htm">Hypertension</button>
+                <button class="tab-btn" data-tab="hbv">Hepatitis B</button>
+                <button class="tab-btn" data-tab="prevention">Disease Prevention</button>
+            </div>
+            <div id="dm" class="tab-content active">
+                <h3>Diabetes Mellitus (DM)</h3>
+                <p>Diabetes is a chronic disease that occurs when the pancreas is no longer able to make insulin, or when the body cannot make good use of the insulin it produces.</p>
+                
+                <h4>Symptoms:</h4>
+                <ul>
+                    <li>Increased thirst and frequent urination</li>
+                    <li>Extreme hunger</li>
+                    <li>Unexplained weight loss</li>
+                    <li>Fatigue</li>
+                    <li>Blurred vision</li>
+                    <li>Slow-healing sores</li>
+                </ul>
+                
+                <h4>Management and Prevention:</h4>
+                <ul>
+                    <li>Maintain a healthy diet rich in fruits, vegetables and whole grains</li>
+                    <li>Exercise regularly (at least 30 minutes daily)</li>
+                    <li>Monitor blood sugar levels regularly</li>
+                    <li>Take prescribed medications as directed</li>
+                    <li>Avoid smoking and excessive alcohol consumption</li>
+                    <li>Maintain a healthy weight</li>
+                </ul>
+            </div>
+            <div id="htm" class="tab-content">
+                <h3>Hypertension (HTN)</h3>
+                <p>Hypertension, or high blood pressure, is a condition in which the force of the blood against the artery walls is too high.</p>
+                
+                <h4>Symptoms (often none until severe):</h4>
+                <ul>
+                    <li>Headaches</li>
+                    <li>Shortness of breath</li>
+                    <li>Nosebleeds</li>
+                    <li>Dizziness</li>
+                    <li>Chest pain</li>
+                    <li>Visual changes</li>
+                </ul>
+                
+                <h4>Management and Prevention:</h4>
+                <ul>
+                    <li>Reduce salt intake</li>
+                    <li>Eat a diet rich in fruits, vegetables and low-fat dairy</li>
+                    <li>Exercise regularly</li>
+                    <li>Limit alcohol consumption</li>
+                    <li>Quit smoking</li>
+                    <li>Manage stress through relaxation techniques</li>
+                    <li>Take prescribed medications consistently</li>
+                </ul>
+            </div>
+            <div id="hbv" class="tab-content">
+                <h3>Hepatitis B Virus (HBV)</h3>
+                <p>Hepatitis B is a serious liver infection caused by the hepatitis B virus (HBV). For some people, hepatitis B infection becomes chronic.</p>
+                
+                <h4>Symptoms:</h4>
+                <ul>
+                    <li>Abdominal pain</li>
+                    <li>Dark urine</li>
+                    <li>Fever</li>
+                    <li>Joint pain</li>
+                    <li>Loss of appetite</li>
+                    <li>Nausea and vomiting</li>
+                    <li>Weakness and fatigue</li>
+                    <li>Yellowing of skin and eyes (jaundice)</li>
+                </ul>
+                
+                <h4>Prevention and Control:</h4>
+                <ul>
+                    <li>Get vaccinated (HBV vaccine is highly effective)</li>
+                    <li>Practice safe sex using condoms</li>
+                    <li>Avoid sharing needles or personal items like razors/toothbrushes</li>
+                    <li>Ensure sterile equipment for tattoos/piercings</li>
+                    <li>Pregnant women should be tested for HBV</li>
+                    <li>For chronic cases, regular monitoring and antiviral therapy as needed</li>
+                </ul>
+            </div>
+            <div id="prevention" class="tab-content">
+                <h3>General Disease Prevention</h3>
+                <p>Preventive measures can significantly reduce your risk of developing many diseases.</p>
+                
+                <h4>Key Prevention Strategies:</h4>
+                <ul>
+                    <li><strong>Vaccination:</strong> Stay up-to-date with recommended vaccines</li>
+                    <li><strong>Healthy Diet:</strong> Eat plenty of fruits, vegetables, whole grains and lean proteins</li>
+                    <li><strong>Regular Exercise:</strong> Aim for at least 150 minutes of moderate activity weekly</li>
+                    <li><strong>Weight Management:</strong> Maintain a healthy weight</li>
+                    <li><strong>Stress Reduction:</strong> Practice relaxation techniques like meditation</li>
+                    <li><strong>Regular Check-ups:</strong> Early detection through screenings is crucial</li>
+                    <li><strong>Hygiene Practices:</strong> Wash hands frequently and practice food safety</li>
+                    <li><strong>Avoid Tobacco:</strong> Don't smoke and avoid secondhand smoke</li>
+                    <li><strong>Limit Alcohol:</strong> Drink in moderation if at all</li>
+                    <li><strong>Safe Sex:</strong> Use protection to prevent STIs</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Haramaya University, Harar, Ethiopia</p>
+                <p><i class="fas fa-phone"></i> +251 XX XXX XXXX</p>
+                <p><i class="fas fa-envelope"></i> info@hiwotfanahospital.edu.et</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#appointment">Book Appointment</a></li>
+                    <li><a href="#health-info">Health Information</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Opening Hours</h3>
+                <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+                <p>Saturday: 9:00 AM - 1:00 PM</p>
+                <p>Emergency Services: 24/7</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Haramaya University <span class="HFCSH">Hiwot Fana Comprehensive Specialist Hospital.</span> All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Appointment Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="success-message">
+                <i class="fas fa-check-circle"></i>
+                <h3>Appointment Booked Successfully!</h3>
+                <p>Your appointment has been scheduled. You will receive a confirmation shortly.</p>
+                <button class="btn" id="closeModalBtn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Form submission
+        const bookingForm = document.getElementById('bookingForm');
+        const successModal = document.getElementById('successModal');
+        const closeBtn = document.querySelector('.close-btn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to a server
+            // For demonstration, we'll just show the success modal
+            
+            // Reset form
+            bookingForm.reset();
+            
+            // Show success modal
+            successModal.style.display = 'block';
+        });
+
+        // Close modal when clicking X or OK button
+        closeBtn.addEventListener('click', () => {
+            successModal.style.display = 'none';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            successModal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+            }
+        });
+
+        // Mobile menu toggle (could be enhanced further)
+        // This is a basic implementation - consider adding a proper hamburger menu for smaller screens
+    </script>
+</body>
+</html>
